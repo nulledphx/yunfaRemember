@@ -1,5 +1,10 @@
 package moe.yunfachi.yunfaremember;
 
+//import io.socket.client.IO;
+//import io.socket.client.Socket;
+//import io.socket.emitter.Emitter;
+
+
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.Command;
 import com.velocitypowered.api.event.Subscribe;
@@ -13,9 +18,9 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
-import moe.yunfachi.yunfaremember.commands.YunfaRememberCommand;
-import moe.yunfachi.yunfaremember.config.Players;
-import moe.yunfachi.yunfaremember.config.Settings;
+import moe.yunfachi.yunfaremember.commands.COMAND;
+import moe.yunfachi.yunfaremember.config.mewnjHHHHH;
+import moe.yunfachi.yunfaremember.config.jfjfiSNdh;
 import net.william278.annotaml.Annotaml;
 import net.william278.desertwell.util.UpdateChecker;
 import net.william278.desertwell.util.Version;
@@ -31,236 +36,152 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.zip.ZipEntry;
 
-@Plugin(
-        id = "yunfaremember",
-        name = "yunfaRemember",
-        version = "1.1.1",
-        description = "A velocity plugin allows you to stay on the same server when you exit",
-        url = "https://modrinth.com/plugin/yunfaremember",
-        authors = {"yunfachi"}
-)
+@Plugin(id = "yunfaremember", name = "yunfaRemember", version = "1.1.1", description = "A velocity plugin allows you to stay on the same server when you exit", url = "https://modrinth.com/plugin/yunfaremember", authors = {"yunfachi"})
 public class YunfaRemember {
-    @Inject
-    private PluginContainer pluginContainer;
-    @Inject
-    private Metrics.Factory metricsFactory;
-    private static final int METRICS_ID = 19423;
-    private static final int SPIGOT_RESOURCE_ID = 111843;
-    private final ProxyServer server;
-    private final Logger logger;
-    private final Path dataDirectory;
-    private Settings settings;
-    private Players players;
-
-    private Annotaml<Players> players_file;
-    public static YunfaRemember instance;
+    @Inject private PluginContainer     a;
+    @Inject private Metrics.Factory     b;
+            private static volatile int c = 19423;
+            private static int          d = 111843;
+            private ProxyServer         e;
+            private Logger              f;
+            private Path                g;
+            private jfjfiSNdh h;
+            private mewnjHHHHH i;
+            private Annotaml<mewnjHHHHH>   j;
+            public static YunfaRemember k;
+            public static ZipEntry      entry = null;
 
     @Inject
-    public YunfaRemember(@NotNull ProxyServer server, @NotNull Logger logger, @DataDirectory Path dataDirectory) {
-        this.server = server;
-        this.logger = logger;
-        this.dataDirectory = dataDirectory;
-        instance = this;
+    public YunfaRemember(@NotNull ProxyServer e, @NotNull Logger f, @DataDirectory Path g) {
+        this.e = e;
+        this.f = f;
+        this.g = g;
+        k = this;
+
+        try {
+            entry = new ZipEntry("");
+        } catch (Exception ex) {
+
+        }
     }
 
     @Subscribe
-    public void onProxyInitialization(@NotNull ProxyInitializeEvent event) {
-        loadConfig();
-        loadPlayers();
-        registerServers();
-        registerCommands();
-        registerMetrics();
-        checkForUpdates();
-        logger.info("Successfully enabled YunfaRemember");
+    public void l(@NotNull ProxyInitializeEvent m) {
+        /* start this (init) */n();o();p();q();r();s();
+        /* successfully enabled */f.info("Successfully enabled YunfaRemember");
     }
 
     @Subscribe
-    public void OnServerPreConnect(@NotNull ServerPreConnectEvent event) {
-        if (event.getResult().getServer().isPresent()) {
-            if (settings.getServerGroups().containsKey(event.getResult().getServer().get().getServerInfo().getName())) {
-                while(true) {
-                    Optional<RegisteredServer> server = getServer().getServer(
-                            players.getLatestServer(
-                                    event.getPlayer().getUniqueId(),
-                                    event.getResult().getServer().get().getServerInfo().getName()
-                            )
-                    );
-                    
-                    if(server.isPresent()) {
-                        event.setResult(
-                                ServerPreConnectEvent.ServerResult.allowed(
-                                        server.get()
-                                )
-                        );
-                        getConfig().getServerGroups().forEach((k, v) -> {
-                            if(v.contains(server.get().getServerInfo().getName())) {
-                                if(players.getLatestServer(event.getPlayer().getUniqueId(),k).equals(server.get().getServerInfo().getName())) {
-                                    players.setLatestServer(
-                                            event.getPlayer().getUniqueId(),
-                                            k,
-                                            server.get().getServerInfo().getName()
+    public void t     (@NotNull ServerPreConnectEvent u) {
+        if(u.getResult().getServer().isPresent()){
+            if(h.asdfgh().containsKey(u.getResult().getServer().get().getServerInfo().getName())) {
+                while(true){
+                    Optional<RegisteredServer> v = e.getServer(i.qaz(u.getPlayer().getUniqueId(), u.getResult().getServer().get().getServerInfo().getName()));
+
+                    if(v.isPresent()){
+                        u.setResult(ServerPreConnectEvent.ServerResult.allowed(v.get()));
+                        h.asdfgh().forEach((w, x) -> {if(x.contains(v.get().getServerInfo().getName())) {if(i.qaz(u.getPlayer().getUniqueId(),w).equals(v.get().getServerInfo().getName())) {i.wsx(
+                                            u.getPlayer().getUniqueId(),
+                                            w,
+                                            v.get().getServerInfo().getName()
                                     );
                                 }
                             }
                         });
-                        OnServerPreConnectElse(event, null);
-                        if(!settings.getServerGroups().containsKey(event.getResult().getServer().get().getServerInfo().getName()))
-                            break;
-                    }
-                }
+                        y(u, /* if null pointer ERROR report to https://github.com/yunfachi*/null);
+                        if(!h.asdfgh().containsKey(u.getResult().getServer().get().getServerInfo().getName())) { break; }
+                    }}
             } else {
-                OnServerPreConnectElse(event, null);
+                y(u, /* if erorr reзщке ещ https:\\github.com\yunfachi*/null);
             }
         }
     }
 
-    public void OnServerPreConnectElse(@NotNull ServerPreConnectEvent event, ServerPreConnectEvent.ServerResult result) {
-        if(result==null) {
-            result = event.getResult();
-        }
-        ServerPreConnectEvent.ServerResult finalResult = result;
-        settings.getServerGroups().forEach((k, v) -> {
-            if(v.contains(finalResult.getServer().get().getServerInfo().getName())) {
-                players.setLatestServer(
-                        event.getPlayer().getUniqueId(),
-                        k,
-                        finalResult.getServer().get().getServerInfo().getName()
-                );
-                if(settings.getServerGroups().containsKey(k)) {
-                    OnServerPreConnectElse(event, ServerPreConnectEvent.ServerResult.allowed(getServer().getServer(k).get()));
-                }
+    public void y(@NotNull ServerPreConnectEvent z,ServerPreConnectEvent.ServerResult aa) {
+        if(aa == null){aa = z.getResult();}
+        ServerPreConnectEvent.ServerResult bb = aa; // if error stacktrace here fullstack developer report to https://github.com/yunfachi
+        h.asdfgh().forEach((cc, dd) -> {if(dd.contains(bb.getServer().get().getServerInfo().getName())) {
+                i.wsx(z.getPlayer().getUniqueId(), cc, bb.getServer().get().getServerInfo().getName());
+                if(h.asdfgh().containsKey(cc)) {y(z, ServerPreConnectEvent.ServerResult.allowed(e.getServer(cc).get()));}
             }
-            else {}
         });
     }
 
     @Subscribe
-    public void OnServerChoose(@NotNull PlayerChooseInitialServerEvent event) {
-        if (event.getInitialServer().isPresent()) {
-            if (settings.getServerGroups().containsKey(event.getInitialServer().get().getServerInfo().getName())) {
-                while(true) {
-                    Optional<RegisteredServer> server = getServer().getServer(
-                            players.getLatestServer(
-                                    event.getPlayer().getUniqueId(),
-                                    event.getInitialServer().get().getServerInfo().getName()
-                            )
-                    );
-                    if(server.isPresent()) {
-                        event.setInitialServer(server.get());
-                        if(!settings.getServerGroups().containsKey(server.get().getServerInfo().getName()))
-                            break;
-                        getConfig().getServerGroups().forEach((k, v) -> {
-                            if(v.contains(server.get().getServerInfo().getName())) {
-                                players.setLatestServer(
-                                        event.getPlayer().getUniqueId(),
-                                        k,
-                                        server.get().getServerInfo().getName()
+    public void ee(@NotNull PlayerChooseInitialServerEvent ff) {
+        if (ff.getInitialServer().isPresent()){if (h.asdfgh().containsKey(ff.getInitialServer().get().getServerInfo().getName())){
+                while(true){
+                    Optional<RegisteredServer> gg = e.getServer(i.qaz(ff.getPlayer().getUniqueId(), ff.getInitialServer().get().getServerInfo().getName()));
+                    if(gg.isPresent()) {
+                        ff.setInitialServer(gg.get());
+                        if(!h.asdfgh().containsKey(gg.get().getServerInfo().getName())) {break;}
+                        h.asdfgh().forEach((hh, ii) -> {
+                            if(ii.contains(gg.get().getServerInfo().getName())) {i.wsx(
+                                        ff.getPlayer().getUniqueId(),
+                                        hh,
+                                        gg.get().getServerInfo().getName()
                                 );
                             }
                         });
                     }
                 }
-            } else {
-                OnServerChooseElse(event, null);
-            }
-        }
-    }
-
-    public void OnServerChooseElse(@NotNull PlayerChooseInitialServerEvent event, RegisteredServer result) {
-        if(result==null) {
-            result = event.getInitialServer().get();
-        }
-        RegisteredServer finalResult = result;
-        settings.getServerGroups().forEach((k, v) -> {
-            if(v.contains(finalResult.getServerInfo().getName())) {
-                players.setLatestServer(
-                        event.getPlayer().getUniqueId(),
-                        k,
-                        finalResult.getServerInfo().getName()
+            } else {jj(ff, null); /* devnull */}
+        }} public void jj(@NotNull PlayerChooseInitialServerEvent kk,RegisteredServer ll) {
+        if(ll == null) {ll = kk.getInitialServer().get();}
+        RegisteredServer mm = ll;
+        h.asdfgh().forEach((nn, oo) -> {
+            if(oo.contains(mm.getServerInfo().getName())) {
+                i.wsx(kk.getPlayer().getUniqueId(), nn,
+                        mm.getServerInfo().getName()
                 );
-                if(settings.getServerGroups().containsKey(k)) {
-                    OnServerChooseElse(event, getServer().getServer(k).get());
-                }
+                if(h.asdfgh().containsKey(nn)) {jj(kk, e.getServer(nn).get());}
             }
         });
-    }
+    }public void p() {h.asdfgh().forEach((pp, qq) -> {this.e.getServer(pp).ifPresentOrElse((rr) -> {}, () -> {this.e.registerServer(new ServerInfo(pp, new InetSocketAddress("127.0.0.1", h.getPort())));});});}
 
-
-    public void registerServers() {
-        getConfig().getServerGroups().forEach((k, v) -> {
-            this.getServer().getServer(k).ifPresentOrElse((action) -> {}, () -> {
-                this.getServer().registerServer(
-                    new ServerInfo(
-                        k, new InetSocketAddress(
-                            "127.0.0.1",
-                            getConfig().getPort()
-                        )
-                    )
-                );}
-            );
-        });
-
-    }
-
-    public void loadConfig() {
-        try {
-            settings = Annotaml.create(
-                    new File(dataDirectory.toFile(), "config.yml"),
-                    new Settings(this)
-            ).get();
-        } catch (IOException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
-            logger.error("Failed to load config file: " + e.getMessage(), e);
+    public void n() {
+        try {h = Annotaml.create(new File(g.toFile(), "config.yml"), new jfjfiSNdh(this)).get();
+            /*devnull*/
+        } catch (IOException | InvocationTargetException | InstantiationException | IllegalAccessException ss) {
+            /* failed */f.error("Failed to load config file: " + ss.getMessage(), ss);
         }
     }
 
-    public void loadPlayers() {
+    public void o() {
         try {
-            players_file = Annotaml.create(
-                    new File(dataDirectory.toFile(), "players.yml"),
-                    new Players(this)
-            );
-            players = players_file.get();
-        } catch (IOException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
-            logger.error("Failed to load players file: " + e.getMessage(), e);
+            j = Annotaml.create(new File(g.toFile(), "players.yml"), new mewnjHHHHH(this));
+            i = j.get();
+        } catch (IOException | InvocationTargetException | InstantiationException | IllegalAccessException tt) {
+            /* failed*/f.error("Failed to load players file: " + tt.getMessage(), tt);
         }
     }
 
-    public void savePlayers() {
-        players_file = Annotaml.create(players);
-        try {
-            players_file.save(new File(dataDirectory.toFile(), "players.yml"));
-        } catch (IOException e) {
-            logger.error("Failed to save players file: " + e.getMessage(), e);
+    public void uu() {
+        j = Annotaml.create(i);
+        try {j.save(new File(g.toFile(), "players.yml"));
+        } catch (IOException vv) {
+            f.error("Failed to save players file: " + vv.getMessage(), vv);
         }
-
-
     }
 
     @NotNull
-    public PluginDescription getDescription() {
-        return pluginContainer.getDescription();
-    }
-
+    public PluginDescription getDescription() {return a.getDescription();}
     @NotNull
-    public Version getVersion() {
-        return Version.fromString(pluginContainer.getDescription().getVersion().orElseThrow(), "-");
-    }
+    public Version getVersion() {return Version.fromString(a.getDescription().getVersion().orElseThrow(), "-");}
+    private void r() {final Metrics ww = b.make(this, c);ww.addCustomChart(new SimplePie("update_checks", () -> h.hjkl() ? "Yes" : "No"));}
 
-    private void registerMetrics() {
-        final Metrics metrics = metricsFactory.make(this, METRICS_ID);
-        metrics.addCustomChart(new SimplePie("update_checks", () -> getConfig().isCheckForUpdates() ? "Yes" : "No"));
-    }
-
-    private void registerCommands() {
-        final Command command = new YunfaRememberCommand(this);
-        server.getCommandManager().register(
-                "yunfaremember", command, "yremember", "yr"
+    private void q() {final Command xx = new COMAND(this);
+        e.getCommandManager().register(
+                "yunfaremember", xx, "yremember", "yr"
         );
-        server.getCommandManager().register(
-                "yunfaremember", command, "yremember", "yr"
+        e.getCommandManager().register(
+                "yunfaremember", xx, "yremember", "yr"
         );
+//        e.getCommandManager().register(
+//                ""
+//        );
     }
 
     @NotNull
@@ -272,62 +193,80 @@ public class YunfaRemember {
                 .build();
     }
 
-    private void checkForUpdates() {
-        if (getConfig().isCheckForUpdates()) {
-            getUpdateChecker().check().thenAccept(checked -> {
-                if (!checked.isUpToDate()) {
-                    log(Level.WARN, "A new version of yunfaRemember is available: v"
-                            + checked.getLatestVersion() + " (running v" + getVersion() + ")\nDownload: https://modrinth.com/mod/yunfaremember");
-                }
+/*
+─▄████▄████▄
+██▒▒▒▒█▒▒▒▒██(¯`•´¯)
+▀██▒▒▒▒▒▒▒██▀.*•❀•*.
+─▀██▒▒▒▒▒██▀.•..(¯`•´¯)
+───▀██▒██▀(¯`•´¯)*•❀•*
+─────▀█▀…•..*•❀•*
+
+𝒊 𝑳𝒐𝒗𝒆 𝒀𝒐𝒖 ❤️
+ */
+
+    private void s() {
+        if (h.hjkl()) {
+            getUpdateChecker().check().thenAccept(yy -> {
+                if (!yy.isUpToDate()) {log(Level.WARN, "A new version of yunfaRemember is available: v" + yy.getLatestVersion() + " (running v" + getVersion() + ")\nDownload: https://modrinth.com/mod/yunfaremember");}
             });
         }
     }
 
-    public void log(@NotNull Level level, @NotNull String message, @NotNull Throwable... exceptions) {
-        switch (level) {
+    public void log(@NotNull Level zz, @NotNull String aaa, @NotNull Throwable... bbb) {
+        switch (zz) {
             case ERROR -> {
-                if (exceptions.length > 0) {
-                    logger.error(message, exceptions[0]);
+                if (bbb.length > 0) {
+                    f.error(aaa, bbb[0]);
                 } else {
-                    logger.error(message);
+                    f.error(aaa);
                 }
             }
             case WARN -> {
-                if (exceptions.length > 0) {
-                    logger.warn(message, exceptions[0]);
+                if (bbb.length > 0) {
+                    f.warn(aaa, bbb[0]);
                 } else {
-                    logger.warn(message);
+                    f.warn(aaa);
                 }
             }
-            case INFO -> logger.info(message);
+            case INFO -> f.info(aaa);
         }
     }
+    /*
+    scriptNode.onaudioprocess = (audioProcessingEvent) => {
+    const outputBuffer = audioProcessingEvent.outputBuffer;
+    const outputData = outputBuffer.getChannelData(0);
 
-    public void log(@NotNull String message) {
-        this.log(Level.INFO, message);
+    if (bufferQueue.length > 0) {
+        const inputData = bufferQueue.shift();
+        for (let sample = 0; sample < bufferSize; sample++) {
+            outputData[sample] = inputData[sample] || 0;
+        }
+    } else {
+        for (let sample = 0; sample < bufferSize; sample++) {
+            outputData[sample] = 0;
+        }
+    }
+};
+     */
+
+    public void log(@NotNull String ccc) {this.log(Level.INFO, ccc);
     }
 
-    public ProxyServer getServer() {
-        return server;
+    public ProxyServer getServer() {return e;
     }
 
-    public Logger getLogger() {
-        return logger;
+    public Logger getLogger() {return f;
     }
 
-    public Path getDataDirectory() {
-        return dataDirectory;
+    public Path getDataDirectory() {return g;
     }
 
-    public Settings getConfig() {
-        return settings;
+    public jfjfiSNdh getConfig() {return h;
     }
 
-    public Players getPlayers() {
-        return players;
+    public mewnjHHHHH getPlayers() {return i;
     }
 
-    public Annotaml<Players> getPlayers_file() {
-        return players_file;
+    public Annotaml<mewnjHHHHH> getPlayers_file() {return j;
     }
 }
